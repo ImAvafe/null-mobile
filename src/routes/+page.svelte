@@ -1,6 +1,7 @@
 <script>
   import Throttle from '$lib/components/Throttle.svelte';
   import { throttleDrag, breakDrag } from '$lib/data/state.ts';
+  import Metric from '$lib/components/Metric.svelte';
 
   breakDrag.subscribe((value) => {
     console.log(`break: ${value}`);
@@ -15,8 +16,12 @@
     breakDrag.set(value)
   }} />
   <div>
-    <div class="w-full h-full flex items-center justify-center">
-      <p class='text-white text-2xl'>100%</p>
+    <div class="w-full h-full flex flex-col items-center justify-center">
+      <div class="flex flex-col gap-12">
+        <Metric label="Throttle" value={`${Math.round($throttleDrag * 100)}%`} />
+        <Metric label="Break" value={`${Math.round($breakDrag * 100)}%`} />
+      </div>
+      <p class="text-stone-500 font-bold font-mono bottom-6 fixed">NULL-MOBILE</p>
     </div>
   </div>
   <Throttle onDrag={(value) => {

@@ -8,9 +8,11 @@
   let drag_position = new Tween({ x: 0, y: 0 }, { easing: expoOut, duration: 1200 });
 </script>
 
-<div class="bg-white/15" use:draggable={{
+<div use:draggable={{
   onDragEnd: () => {
     drag_position.target = { x: 0, y: 0 };
+
+    onDrag(0);
   },
   onDrag: ({ offsetX, offsetY }) => {
     drag_position.set({ x: offsetX, y: offsetY }, { duration: 0 });
@@ -19,4 +21,13 @@
   },
   position: drag_position.current,
   axis: 'y',
+  ignoreMultitouch: false,
 }}></div>
+
+<style>
+  div {
+    background-image: url("$lib/img/grid.svg");
+    background-size: 100%;
+    background-position: center;
+  }
+</style>
