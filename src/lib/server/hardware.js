@@ -18,4 +18,4 @@ export function setBreak(value) {
 
 new Step(() => {
 	console.log(values);
-});
+}).start();
