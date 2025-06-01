@@ -30,5 +30,8 @@ export default defineConfig({
 				});
 			}
 		}
-	]
+	],
+	server: {
+		allowedHosts: ['5931-99-209-235-170.ngrok-free.app']
+	}
 });
