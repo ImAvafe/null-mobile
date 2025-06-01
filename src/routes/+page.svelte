@@ -1,6 +1,6 @@
-<script lang="ts">
+<script>
   import Throttle from '$lib/components/Throttle.svelte';
-  import { throttleDrag, breakDrag } from '$lib/data/state.ts';
+  import { throttleDrag, breakDrag } from '$lib/data/state';
   import Metric from '$lib/components/Metric.svelte';
   import { onMount } from 'svelte';
 
@@ -22,7 +22,7 @@
     };
   });
 
-  function handleOrientation(event: DeviceOrientationEvent) {
+  function handleOrientation(event) {
     let tilt = event.beta || 0;
 
     tilt = Math.max(-MAX_TILT, Math.min(MAX_TILT, tilt)) / MAX_TILT;

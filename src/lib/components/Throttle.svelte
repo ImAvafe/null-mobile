@@ -1,9 +1,9 @@
-<script lang="ts">
+<script>
   import { draggable } from '@neodrag/svelte';
   import { Tween } from 'svelte/motion';
   import { expoOut } from 'svelte/easing';
 
-  export let onDrag = (value: number) => {};
+  export let onDrag = (value) => {};
 
   let drag_position = new Tween({ x: 0, y: 0 }, { easing: expoOut, duration: 1200 });
 </script>
