@@ -16,9 +16,10 @@ export default defineConfig({
 		sveltekit(),
 		{
 			name: 'websocket-server',
-			configureServer(viteServer) {
+			configureServer() {
 				const webSocketServer = new WebSocketServer({
-					server: viteServer.httpServer
+					port: 2103,
+					host: '0.0.0.0'
 				});
 
 				webSocketServer.on('connection', (ws) => {
@@ -40,7 +41,9 @@ export default defineConfig({
 		}
 	],
 	server: {
-		https: httpsOptions,
-		host: true
+		https: {
+			key: fs.readFileSync('../localhost-key.pem'),
+			cert: fs.readFileSync('../localhost-cert.pem')
+		}
 	}
 });

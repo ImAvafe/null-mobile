@@ -7,7 +7,7 @@
   let socket: WebSocket | null = null;
 
   onMount(() => {
-    socket = new WebSocket("wss://192.168.1.227:5173");
+    socket = new WebSocket("wss://192.168.1.227:2103");
 
     socket.onopen = () => {
       console.log("WebSocket connection established");
