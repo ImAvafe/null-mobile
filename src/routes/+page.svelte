@@ -7,7 +7,7 @@
 
   const MAX_TILT = 45;
 
-  let socket = new Socket('ws://localhost:8080');;
+  let socket = new Socket('wss://192.168.1.227:2103');;
 
   onMount(() => {
     socket.open();
