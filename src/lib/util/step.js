@@ -1,9 +1,7 @@
 export class Step {
-	private callback: () => void;
-	private running: boolean = false;
-
-	constructor(callback: () => void) {
+	constructor(callback) {
 		this.callback = callback;
+		this.running = false;
 	}
 
 	start() {
