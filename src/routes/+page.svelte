@@ -1,27 +1,34 @@
-<script>
+<script lang="ts">
   import Throttle from '$lib/components/Throttle.svelte';
   import { throttleDrag, breakDrag } from '$lib/data/state.ts';
   import Metric from '$lib/components/Metric.svelte';
-  import { Step } from '$lib/util/step';
-	import { onMount } from 'svelte';
+  import { onMount } from 'svelte';
 
-  breakDrag.subscribe((value) => {
-    console.log(`break: ${value}`);
-  });
-  throttleDrag.subscribe((value) => {
-    console.log(`throttle: ${value}`);
-  });
+  let socket: WebSocket | null = null;
 
-  // onMount(() => {
-  //   new Step(() => {
-  //     console.log('step');
-  //   }).start();
-  // });
+  onMount(() => {
+    socket = new WebSocket("ws://localhost:2103");
+
+    socket.onopen = () => {
+      console.log("WebSocket connection established");
+    };
+    socket.onerror = (event) => {
+      console.error("WebSocket error:", event);
+    };
+    socket.onclose = (event) => {
+      console.log("WebSocket closed:", event);
+    };
+  });
 </script>
 
 <div class="flex flex-row min-h-screen h-screen [&>*]:flex-1">
   <Throttle onDrag={(value) => {
-    breakDrag.set(value)
+    breakDrag.set(value);
+    
+    socket?.send(JSON.stringify({
+      type: 'break',
+      value: value
+    }));
   }} />
   <div>
     <div class="w-full h-full flex flex-col items-center justify-center">
@@ -33,6 +40,11 @@
     </div>
   </div>
   <Throttle onDrag={(value) => {
-    throttleDrag.set(value)
+    throttleDrag.set(value);
+
+    socket?.send(JSON.stringify({
+      type: 'throttle',
+      value: value
+    }));
   }} />
 </div>
