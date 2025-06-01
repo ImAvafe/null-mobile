@@ -3,23 +3,14 @@
   import { throttleDrag, breakDrag } from '$lib/data/state';
   import Metric from '$lib/components/Metric.svelte';
   import { onMount } from 'svelte';
+  import { Socket } from "../lib/client/websocket.js";
 
   const MAX_TILT = 45;
 
-  let socket: WebSocket | null = null;
+  let socket = new Socket('ws://localhost:8080');;
 
   onMount(() => {
-    socket = new WebSocket("wss://192.168.1.227:2103");
-
-    socket.onopen = () => {
-      console.log("WebSocket connection established");
-    };
-    socket.onerror = (event) => {
-      console.error("WebSocket error:", event);
-    };
-    socket.onclose = (event) => {
-      console.log("WebSocket closed:", event);
-    };
+    socket.open();
   });
 
   function handleOrientation(event) {
@@ -30,8 +21,9 @@
     if (window.screen.orientation.angle === 270) {
       tilt = -tilt;
     }
+    
 
-    socket?.send(JSON.stringify({
+    socket.send(JSON.stringify({
       type: 'tilt',
       value: tilt
     }));
