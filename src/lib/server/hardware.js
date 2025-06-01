@@ -1,5 +1,3 @@
-import { Step } from '../util/step.js';
-
 export const values = {
 	tilt: 0,
 	throttle: 0,
@@ -16,6 +14,10 @@ export function setBreak(value) {
 	values.break = value;
 }
 
-new Step(() => {
+function loop() {
 	console.log(values);
-}).start();
+
+	setTimeout(loop, 16);
+}
+
+loop();
