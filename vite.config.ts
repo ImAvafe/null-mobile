@@ -8,6 +8,7 @@ export default defineConfig({
 	plugins: [
 		tailwindcss(),
 		sveltekit(),
+
 		{
 			name: 'websocket-server',
 			configureServer() {
@@ -32,25 +33,6 @@ export default defineConfig({
 		}
 	],
 	server: {
-		host: true, // Listen on all interfaces
-		port: 5173,
-		cors: true,
-		origin: '*',
-		strictPort: false,
-		allowedHosts: true, // Allow requests from any hostname
-
-		hmr: {
-			port: 2103,
-			clientPort: 2103,
-			protocol: 'ws'
-		},
-
-		headers: {
-			'Access-Control-Allow-Origin': '*',
-			'Access-Control-Allow-Methods': '*',
-			'Access-Control-Allow-Headers': '*'
-		},
-
 		https: {
 			key: fs.readFileSync('../localhost-key.pem'),
 			cert: fs.readFileSync('../localhost-cert.pem')
