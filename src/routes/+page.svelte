@@ -4,6 +4,8 @@
   import Metric from '$lib/components/Metric.svelte';
   import { onMount } from 'svelte';
 
+  const MAX_TILT = 45;
+
   let socket: WebSocket | null = null;
 
   onMount(() => {
@@ -21,9 +23,19 @@
   });
 
   function handleOrientation(event: DeviceOrientationEvent) {
+    let tilt = event.beta || 0;
+
+    tilt = Math.max(-MAX_TILT, Math.min(MAX_TILT, tilt));
+
+    let normalized = tilt / MAX_TILT;
+
+    if (window.screen.orientation.angle === 270) {
+      normalized = -normalized;
+    }
+
     socket?.send(JSON.stringify({
       type: 'tilt',
-      value: (event.gamma ?? 0) / 90
+      value: tilt
     }));
   }
 
