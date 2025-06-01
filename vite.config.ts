@@ -32,6 +32,24 @@ export default defineConfig({
 		}
 	],
 	server: {
-		allowedHosts: ['5931-99-209-235-170.ngrok-free.app']
+		host: true, // listen on all interfaces (0.0.0.0)
+		port: 5173, // main dev server port
+		cors: true, // allow all origins
+		origin: '*',
+		strictPort: false, // fallback port if 3000 taken
+
+		// HMR config to support tunnels like Ngrok:
+		hmr: {
+			// If you want Vite’s built-in HMR websockets to connect on 2103 instead of default:
+			port: 2103, // force HMR websocket on port 2103
+			clientPort: 2103, // client connects to this port for HMR websocket
+			protocol: 'ws' // websocket protocol (ws or wss)
+		},
+
+		headers: {
+			'Access-Control-Allow-Origin': '*',
+			'Access-Control-Allow-Methods': '*',
+			'Access-Control-Allow-Headers': '*'
+		}
 	}
 });
