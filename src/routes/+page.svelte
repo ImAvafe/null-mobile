@@ -25,12 +25,10 @@
   function handleOrientation(event: DeviceOrientationEvent) {
     let tilt = event.beta || 0;
 
-    tilt = Math.max(-MAX_TILT, Math.min(MAX_TILT, tilt));
-
-    let normalized = tilt / MAX_TILT;
+    tilt = Math.max(-MAX_TILT, Math.min(MAX_TILT, tilt)) / MAX_TILT;
 
     if (window.screen.orientation.angle === 270) {
-      normalized = -normalized;
+      tilt = -tilt;
     }
 
     socket?.send(JSON.stringify({
@@ -66,14 +64,7 @@
 </script>
 
   <div class="flex flex-row min-h-screen h-screen [&>*]:flex-1">
-  <Throttle onDrag={(value) => {
-    breakDrag.set(value);
-    
-    socket?.send(JSON.stringify({
-      type: 'break',
-      value: value
-    }));
-  }} />
+  <Throttle />
   <div>
     <div class="w-full h-full flex flex-col items-center justify-center">
       <div class="flex flex-col gap-12">
