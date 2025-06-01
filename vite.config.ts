@@ -18,9 +18,7 @@ export default defineConfig({
 			name: 'websocket-server',
 			configureServer(viteServer) {
 				const webSocketServer = new WebSocketServer({
-					server: viteServer.httpServer,
-					port: 2103,
-					host: '0.0.0.0'
+					server: viteServer.httpServer
 				});
 
 				webSocketServer.on('connection', (ws) => {
