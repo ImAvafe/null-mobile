@@ -23,24 +23,13 @@
   function handleOrientation(event: DeviceOrientationEvent) {
     socket?.send(JSON.stringify({
       type: 'tilt',
-      value: event.alpha
+      value: (event.alpha || 0) / 360
     }));
   }
 
-  function requestOrientationAccess() {
-    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
-      DeviceOrientationEvent.requestPermission().then((permissionState) => {
-        if (permissionState === 'granted') {
-          window.addEventListener('deviceorientation', handleOrientation, true);
-        } else {
-          alert('Permission not granted');
-        }
-      }).catch(console.error);
-    } else {
-      // Android and older iOS
-      window.addEventListener('deviceorientation', handleOrientation, true);
-    }
-  }
+  onMount(() => {
+    window.addEventListener('deviceorientation', handleOrientation, true);
+  });
 </script>
 
   <div class="flex flex-row min-h-screen h-screen [&>*]:flex-1">
@@ -57,7 +46,6 @@
       <div class="flex flex-col gap-12">
         <Metric label="Throttle" value={`${Math.round($throttleDrag * 100)}%`} />
         <Metric label="Break" value={`${Math.round($breakDrag * 100)}%`} />
-        <button on:click={requestOrientationAccess} class="bg-white">Orientation Perm</button>
       </div>
       <p class="text-stone-500 font-bold font-mono bottom-6 fixed">NULL-MOBILE</p>
     </div>
