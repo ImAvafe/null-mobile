@@ -23,7 +23,7 @@
   function handleOrientation(event: DeviceOrientationEvent) {
     socket?.send(JSON.stringify({
       type: 'tilt',
-      value: (event.alpha || 0) / 360
+      value: (event.gamma || 0) / 90
     }));
   }
 
