@@ -8,10 +8,7 @@
   const MAX_TILT = 45;
 
   let socket = new Socket('wss://192.168.1.227:2103');;
-
-  onMount(() => {
-    socket.open();
-  });
+  let wakeLock = null;
 
   function handleOrientation(event) {
     let tilt = event.beta || 0;
@@ -29,32 +26,30 @@
     }));
   }
 
-  let wakeLock = null;
-
   async function requestWakeLock() {
     try {
       wakeLock = await navigator.wakeLock.request('screen');
+
       wakeLock.addEventListener('release', () => {
         console.log('Wake Lock was released');
       });
+
       console.log('Wake Lock is active');
-    } catch (err) {
-      console.error(`${err.name}, ${err.message}`);
+    } catch (error) {
+      console.error(error);
     }
   }
 
-  // Request wake lock on mount
   onMount(() => {
+    window.addEventListener('deviceorientation', handleOrientation, true);
+
     if ('wakeLock' in navigator) {
       requestWakeLock();
     }
-  });
 
-  onMount(() => {
-    window.addEventListener('deviceorientation', handleOrientation, true);
+    socket.open();
   });
 </script>
-
   <div class="flex flex-row min-h-screen h-screen [&>*]:flex-1">
   <Throttle />
   <div>
@@ -69,7 +64,7 @@
   <Throttle onDrag={(value) => {
     throttleDrag.set(value);
 
-    socket?.send(JSON.stringify({
+    socket.send(JSON.stringify({
       type: 'throttle',
       value: value
     }));
