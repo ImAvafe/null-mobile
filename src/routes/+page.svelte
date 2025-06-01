@@ -51,12 +51,18 @@
   });
 </script>
   <div class="flex flex-row min-h-screen h-screen [&>*]:flex-1">
-  <Throttle />
+  <Throttle onDrag={(value) => {
+    throttleDrag.set(value);
+
+    socket.send(JSON.stringify({
+      type: 'throttle',
+      value: value
+    }));
+  }} />
   <div>
     <div class="w-full h-full flex flex-col items-center justify-center">
       <div class="flex flex-col gap-12">
         <Metric label="Throttle" value={`${Math.round($throttleDrag * 100)}%`} />
-        <Metric label="Break" value={`${Math.round($breakDrag * 100)}%`} />
       </div>
       <p class="text-stone-500 font-bold font-mono bottom-6 fixed">NULL-MOBILE</p>
     </div>
