@@ -18,8 +18,6 @@ export default defineConfig({
 
 					ws.on('message', (message) => {
 						console.log(`Received message: ${message}`);
-						// Echo the message back to the client
-						ws.send(`Echo: ${message}`);
 					});
 
 					ws.on('close', () => {

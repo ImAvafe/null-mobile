@@ -20,21 +20,27 @@
     };
   });
 
-
-  let tilt = { alpha: 0, beta: 0, gamma: 0 };
-
   function handleOrientation(event: DeviceOrientationEvent) {
-    console.log(event.alpha)
-    tilt = {
-      alpha: event.alpha ?? 0, // rotation around z-axis
-      beta: event.beta ?? 0,   // front-back tilt (x-axis)
-      gamma: event.gamma ?? 0  // left-right tilt (y-axis)
-    };
+    socket?.send(JSON.stringify({
+      type: 'tilt',
+      value: event.alpha
+    }));
   }
 
-  onMount(() => {
-    window.addEventListener('deviceorientation', handleOrientation, true);
-  });
+  function requestOrientationAccess() {
+    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+      DeviceOrientationEvent.requestPermission().then((permissionState) => {
+        if (permissionState === 'granted') {
+          window.addEventListener('deviceorientation', handleOrientation, true);
+        } else {
+          alert('Permission not granted');
+        }
+      }).catch(console.error);
+    } else {
+      // Android and older iOS
+      window.addEventListener('deviceorientation', handleOrientation, true);
+    }
+  }
 </script>
 
   <div class="flex flex-row min-h-screen h-screen [&>*]:flex-1">
@@ -51,6 +57,7 @@
       <div class="flex flex-col gap-12">
         <Metric label="Throttle" value={`${Math.round($throttleDrag * 100)}%`} />
         <Metric label="Break" value={`${Math.round($breakDrag * 100)}%`} />
+        <button on:click={requestOrientationAccess} class="bg-white">Orientation Perm</button>
       </div>
       <p class="text-stone-500 font-bold font-mono bottom-6 fixed">NULL-MOBILE</p>
     </div>
