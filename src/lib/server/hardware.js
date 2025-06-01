@@ -1,4 +1,4 @@
-import { Step } from '$lib/util/step';
+import { Step } from '../util/step';
 
 export const values = {
 	tilt: 0,
