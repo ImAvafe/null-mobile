@@ -22,6 +22,6 @@ wss.on('connection', (ws) => {
 	});
 });
 
-server.listen(2103, () => {
+server.listen(2103, '0.0.0.0', () => {
 	console.log('Secure WebSocket server running on wss://192.168.1.227:2103');
 });
