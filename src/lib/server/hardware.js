@@ -13,11 +13,3 @@ export function setThrottle(value) {
 export function setBreak(value) {
 	values.break = value;
 }
-
-function loop() {
-	console.log(values);
-
-	setTimeout(loop, 16);
-}
-
-loop();

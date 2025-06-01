@@ -1,7 +1,7 @@
 import https from 'https';
 import fs from 'fs';
 import { WebSocketServer } from 'ws';
-import { setTilt, setBreak, setThrottle } from './hardware.js';
+import { values, setTilt, setBreak, setThrottle } from './hardware.js';
 
 const server = https.createServer({
 	key: fs.readFileSync('../localhost-key.pem'),
@@ -9,6 +9,14 @@ const server = https.createServer({
 });
 
 const wss = new WebSocketServer({ server });
+
+function loop() {
+	console.log(values);
+
+	setTimeout(loop, 16);
+}
+
+loop();
 
 wss.on('connection', (ws) => {
 	console.log('New WebSocket connection established');
