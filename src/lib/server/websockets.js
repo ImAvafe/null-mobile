@@ -1,7 +1,7 @@
 import https from 'https';
 import fs from 'fs';
 import { WebSocketServer } from 'ws';
-import { setTilt, setBreak, setThrottle } from './hardware';
+import { setTilt, setBreak, setThrottle } from './hardware.js';
 
 const server = https.createServer({
 	key: fs.readFileSync('../localhost-key.pem'),
