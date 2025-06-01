@@ -2,6 +2,8 @@
   import Throttle from '$lib/components/Throttle.svelte';
   import { throttleDrag, breakDrag } from '$lib/data/state.ts';
   import Metric from '$lib/components/Metric.svelte';
+  import { Step } from '$lib/util/step';
+	import { onMount } from 'svelte';
 
   breakDrag.subscribe((value) => {
     console.log(`break: ${value}`);
@@ -9,6 +11,12 @@
   throttleDrag.subscribe((value) => {
     console.log(`throttle: ${value}`);
   });
+
+  // onMount(() => {
+  //   new Step(() => {
+  //     console.log('step');
+  //   }).start();
+  // });
 </script>
 
 <div class="flex flex-row min-h-screen h-screen [&>*]:flex-1">
