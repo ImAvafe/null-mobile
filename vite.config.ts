@@ -3,16 +3,25 @@ import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
 import { WebSocketServer } from 'ws';
 import fs from 'fs';
+import https from 'https';
+
+const httpsOptions = https.createServer({
+	key: fs.readFileSync('../localhost-key.pem'),
+	cert: fs.readFileSync('../localhost-cert.pem')
+});
 
 export default defineConfig({
 	plugins: [
 		tailwindcss(),
 		sveltekit(),
-
 		{
 			name: 'websocket-server',
-			configureServer() {
-				const webSocketServer = new WebSocketServer({ port: 2103, host: '0.0.0.0' });
+			configureServer(viteServer) {
+				const webSocketServer = new WebSocketServer({
+					server: viteServer.httpServer,
+					port: 2103,
+					host: '0.0.0.0'
+				});
 
 				webSocketServer.on('connection', (ws) => {
 					console.log('New WebSocket connection established');
@@ -33,9 +42,7 @@ export default defineConfig({
 		}
 	],
 	server: {
-		https: {
-			key: fs.readFileSync('../localhost-key.pem'),
-			cert: fs.readFileSync('../localhost-cert.pem')
-		}
+		https: httpsOptions,
+		host: true
 	}
 });
