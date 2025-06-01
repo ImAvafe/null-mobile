@@ -11,7 +11,7 @@ export default defineConfig({
 		{
 			name: 'websocket-server',
 			configureServer() {
-				const webSocketServer = new WebSocketServer({ port: 2103 });
+				const webSocketServer = new WebSocketServer({ port: 2103, host: '0.0.0.0' });
 
 				webSocketServer.on('connection', (ws) => {
 					console.log('New WebSocket connection established');
