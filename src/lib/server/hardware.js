@@ -1,4 +1,4 @@
-import { Step } from '../util/step';
+import { Step } from '../util/step.ts';
 
 export const values = {
 	tilt: 0,
