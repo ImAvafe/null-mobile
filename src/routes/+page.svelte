@@ -7,7 +7,7 @@
   let socket: WebSocket | null = null;
 
   onMount(() => {
-    socket = new WebSocket("ws://localhost:2103");
+    socket = new WebSocket("ws://192.168.1.86:2103");
 
     socket.onopen = () => {
       console.log("WebSocket connection established");
@@ -19,9 +19,25 @@
       console.log("WebSocket closed:", event);
     };
   });
+
+
+  let tilt = { alpha: 0, beta: 0, gamma: 0 };
+
+  function handleOrientation(event: DeviceOrientationEvent) {
+    console.log(event.alpha)
+    tilt = {
+      alpha: event.alpha ?? 0, // rotation around z-axis
+      beta: event.beta ?? 0,   // front-back tilt (x-axis)
+      gamma: event.gamma ?? 0  // left-right tilt (y-axis)
+    };
+  }
+
+  onMount(() => {
+    window.addEventListener('deviceorientation', handleOrientation, true);
+  });
 </script>
 
-<div class="flex flex-row min-h-screen h-screen [&>*]:flex-1">
+  <div class="flex flex-row min-h-screen h-screen [&>*]:flex-1">
   <Throttle onDrag={(value) => {
     breakDrag.set(value);
     
