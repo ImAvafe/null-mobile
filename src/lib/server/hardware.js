@@ -6,13 +6,13 @@ export const values = {
 	break: 0
 };
 
-export function setTilt(value: number) {
+export function setTilt(value) {
 	values.tilt = value;
 }
-export function setThrottle(value: number) {
+export function setThrottle(value) {
 	values.throttle = value;
 }
-export function setBreak(value: number) {
+export function setBreak(value) {
 	values.break = value;
 }
 
