@@ -2,6 +2,7 @@ import tailwindcss from '@tailwindcss/vite';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
 import { WebSocketServer } from 'ws';
+import fs from 'fs';
 
 export default defineConfig({
 	plugins: [
@@ -30,7 +31,6 @@ export default defineConfig({
 			}
 		}
 	],
-
 	server: {
 		host: true, // Listen on all interfaces
 		port: 5173,
@@ -49,6 +49,11 @@ export default defineConfig({
 			'Access-Control-Allow-Origin': '*',
 			'Access-Control-Allow-Methods': '*',
 			'Access-Control-Allow-Headers': '*'
+		},
+
+		https: {
+			key: fs.readFileSync('./localhost-key.pem'),
+			cert: fs.readFileSync('./localhost-cert.pem')
 		}
 	}
 });
