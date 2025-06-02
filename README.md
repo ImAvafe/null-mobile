@@ -2,7 +2,7 @@
 
 The remote webapp for our race car hackathon, built as a WebSocket-enabled SvelteKit web app running directly on the car's Raspberry Pi.
 
-![Steering](/assets/Steering.mp4)
+[![Steering](https://img.youtube.com/vi/hvLhaX6VyO0/default.jpg)](https://youtu.be/hvLhaX6VyO0)
 
 ![Laptop](/assets/Laptop.jpg)
 
